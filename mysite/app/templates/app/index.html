@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="" style="display:flex;justify-content: center;flex-direction: row;">
+    <h1>EV BATTERY INDICATOR</h1>
+  </div>
+  <div class="" style="display:flex;justify-content: space-around;flex-direction: row;">
+    <div class="" style="display:flex;justify-content: center;flex-direction: column;">
+      <h2>Temperature</h2>
+      <div id="tm" style="justify-content:center;border: 1px solid black;width:200px;height:50px;"></div>
+    </div>
+    <div class="" style="display:flex;justify-content: center;flex-direction: column;">
+      <h2>Humidity</h2>
+      <div id="hm" style="justify-content:center;border: 1px solid black;width:200px;height:50px;"></div>
+    </div>
+  </div>
+
+  <script>
+    const ws = new WebSocket('ws://127.0.0.1:8000/ws/sc/')
+
+    ws.onopen = function () {
+      console.log('Websocket connection open...')
+      ws.send('Hi, Message from Client to Server...')
+    }
+
+    ws.onmessage = function (event) {
+      console.log('Message Received from Server...', event.data)
+      document.getElementById("tm").innerText = event.data
+    }
+
+    // ws.onmessage = function (event) {
+    //   console.log('EVENT...', event)
+    //   console.log('Message Received from Server...', event.data)
+    //   console.log('Type of Event Data', typeof (event.data))
+    //   var data = JSON.parse(event.data)
+    //   console.log('Parsed Data', data)
+    //   console.log('Type of Parsed Data', typeof (data))
+    //   document.getElementById("ct").innerText = data.count
+    // }
+
+    ws.onerror = function (event) {
+      console.log('Websocket Error Occurred...', event)
+    }
+    ws.onclose = function (event) {
+      console.log('Websocket Connection Closed...', event)
+    }
+
+  </script>
+</body>
+
+</html>
